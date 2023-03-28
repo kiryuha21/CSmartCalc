@@ -1,22 +1,35 @@
-#include <gtk/gtk.h>
-
 #include "s21_smart_calc.h"
 
-static void activate(GtkApplication *app) {
-  GtkWidget *window;
+int main(int argc, char* argv[]) {
+  gtk_init(&argc, &argv);
+  GError* error = NULL;
 
-  window = gtk_application_window_new(app);
-  gtk_window_set_title(GTK_WINDOW(window), "Hello GNOME");
-  gtk_widget_show_all(window);
-}
+  GtkBuilder* builder = gtk_builder_new();
+  if (gtk_builder_add_from_file(builder, "interface.ui", &error) == 0) {
+    g_printerr("Error loading file: %s\n", error->message);
+    g_clear_error(&error);
+    return 1;
+  }
 
-int main(int argc, char **argv) {
-  GtkApplication *app;
-  int status;
+  GtkCssProvider* cssProvider = gtk_css_provider_new();
+  gtk_css_provider_load_from_path(cssProvider, "styles.css", NULL);
+  gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
+                                            GTK_STYLE_PROVIDER(cssProvider),
+                                            GTK_STYLE_PROVIDER_PRIORITY_USER);
 
-  app = gtk_application_new("org.gtk.example", G_APPLICATION_FLAGS_NONE);
-  g_signal_connect(app, "activate", G_CALLBACK(activate), NULL);
-  status = g_application_run(G_APPLICATION(app), argc, argv);
-  g_object_unref(app);
-  return (status);
+  /* Connect signal handlers to the constructed widgets. */
+  GObject* main_window = gtk_builder_get_object(builder, "main_window");
+  g_signal_connect(main_window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
+
+  GObject* output = gtk_builder_get_object(builder, "result_view");
+  GObject* input = gtk_builder_get_object(builder, "expression_input");
+
+  EvaluationComponents components = {GTK_WIDGET(input), GTK_WIDGET(output)};
+  g_signal_connect(input, "key_press_event", G_CALLBACK(on_key_press),
+                   &components);
+  g_signal_connect(input, "grab_focus", G_CALLBACK(on_input_focus), NULL);
+
+  gtk_main();
+
+  return 0;
 }

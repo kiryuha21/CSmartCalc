@@ -1,0 +1,28 @@
+.root-element {
+    background: whitesmoke;
+}
+
+.header {
+    font-size: 30px;
+    color: darkviolet;
+}
+
+.option-button {
+    background: darkslateblue;
+    color: violet;
+    font-size: 20px;
+    margin: 20px 10px;
+    border-radius: 20px;
+}
+
+.input-field {
+    margin: 20px;
+    font-size: 20px;
+}
+
+.output-field {
+    border-width: 1px;
+    border-style: solid;
+    margin: 20px;
+    font-size: 20px;
+}
