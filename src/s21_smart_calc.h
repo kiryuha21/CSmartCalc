@@ -22,8 +22,8 @@ typedef struct EvaluationComponents {
 
 void on_input_focus(GtkWidget* w);
 void evaluate_expression(EvaluationComponents* components);
-gboolean on_key_press(GdkEventKey* event, gpointer user_data);
-
+gboolean on_key_press(GtkWidget* widget, GdkEventKey* event,
+                      gpointer user_data);
 list* parse_line(char* line, int* err);
 list* parse_to_polish(list* lexems, int* err);
 double apply_polish(double x, list* parsed_polish, int* err);

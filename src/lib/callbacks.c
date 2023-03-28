@@ -35,17 +35,19 @@ void evaluate_expression(EvaluationComponents* components) {
   gtk_widget_grab_focus(components->result_view);
 }
 
-gboolean on_key_press(GdkEventKey* event, gpointer user_data) {
+gboolean on_key_press(GtkWidget* widget, GdkEventKey* event,
+                      gpointer user_data) {
   switch (event->keyval) {
     case GDK_KEY_equal:
-      puts("= pressed");
+      printf("=         was pressed on %s", gtk_widget_get_name(widget));
 
       EvaluationComponents* components = user_data;
       evaluate_expression(components);
 
       break;
     default:
-      printf("%s was pressed\n", gdk_keyval_name(event->keyval));
+      printf("%-10s was pressed on %s\n", gdk_keyval_name(event->keyval),
+             gtk_widget_get_name(widget));
       break;
   }
   return FALSE;
