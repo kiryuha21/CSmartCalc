@@ -104,7 +104,8 @@ char* handle_lexem(char* position, list** result, list** current, int* err) {
              has_prefix(position, "mod")) {
     allocate_and_push(3, result, current, position, err);
     position += 3;
-  } else if (has_prefix(position, "sqrt")) {
+  } else if (has_prefix(position, "sqrt") || has_prefix(position, "asin") ||
+             has_prefix(position, "acos") || has_prefix(position, "atan")) {
     allocate_and_push(4, result, current, position, err);
     position += 4;
   } else if (has_prefix(position, "ln")) {

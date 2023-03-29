@@ -38,7 +38,7 @@ void evaluate_expression(EvaluationComponents* components) {
       if (safe_get_input(var_entry, lexems, &input) == 0) {
         double res = apply_polish(input, parsed, &err);
         char buff[10] = {0};
-        sprintf(buff, "%f", res);
+        sprintf(buff, "%.7f", res);
         gtk_text_buffer_set_text(buffer, buff, (int)strlen(buff));
         list_destroy(parsed);
       } else {

@@ -21,7 +21,8 @@ int is_prefix(char* lexem) {
   return strcmp(lexem, "sin") == 0 || strcmp(lexem, "cos") == 0 ||
          strcmp(lexem, "tan") == 0 || strcmp(lexem, "log") == 0 ||
          strcmp(lexem, "sqrt") == 0 || strcmp(lexem, "ln") == 0 ||
-         strcmp(lexem, "~") == 0;
+         strcmp(lexem, "asin") == 0 || strcmp(lexem, "acos") == 0 ||
+         strcmp(lexem, "atan") == 0 || strcmp(lexem, "~") == 0;
 }
 
 int is_binary(char* lexem) {
@@ -138,6 +139,12 @@ double apply_prefix(double_stack** main_stack, char* lexem) {
     result = sqrt(first);
   } else if (strcmp(lexem, "ln") == 0) {
     result = log(first);
+  } else if (strcmp(lexem, "asin") == 0) {
+    result = asin(first);
+  } else if (strcmp(lexem, "acos") == 0) {
+    result = acos(first);
+  } else if (strcmp(lexem, "atan") == 0) {
+    result = atan(first);
   } else {  // lexem == "~"
     result = -first;
   }
