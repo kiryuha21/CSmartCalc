@@ -27,14 +27,15 @@ int is_prefix(char* lexem) {
 int is_binary(char* lexem) {
   return strcmp(lexem, "+") == 0 || strcmp(lexem, "*") == 0 ||
          strcmp(lexem, "/") == 0 || strcmp(lexem, "-") == 0 ||
-         strcmp(lexem, "^") == 0;
+         strcmp(lexem, "^") == 0 || strcmp(lexem, "mod") == 0;
 }
 
 int get_priority(char* lexem) {
   int val = 0;
   if (strcmp(lexem, "+") == 0 || strcmp(lexem, "-") == 0) {
     val = LOW_P;
-  } else if (strcmp(lexem, "*") == 0 || strcmp(lexem, "/") == 0) {
+  } else if (strcmp(lexem, "*") == 0 || strcmp(lexem, "/") == 0 ||
+             strcmp(lexem, "mod") == 0) {
     val = HIGH_P;
   } else if (strcmp(lexem, "^") == 0) {
     val = HIGHEST_P;
@@ -110,6 +111,8 @@ double apply_binary(double_stack** main_stack, char* lexem) {
     result = second / first;
   } else if (strcmp(lexem, "^") == 0) {
     result = pow(second, first);
+  } else if (strcmp(lexem, "mod") == 0) {
+    result = fmod(second, first);
   } else {  // lexem == *
     result = second * first;
   }
