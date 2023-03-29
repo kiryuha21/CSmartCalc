@@ -38,11 +38,11 @@ void evaluate_expression(EvaluationComponents* components) {
       if (safe_get_input(var_entry, lexems, &input) == 0) {
         double res = apply_polish(input, parsed, &err);
         if (err == 0) {
-            char buff[10] = {0};
-            sprintf(buff, "%.7f", res);
-            gtk_text_buffer_set_text(buffer, buff, (int) strlen(buff));
+          char buff[10] = {0};
+          sprintf(buff, "%.7f", res);
+          gtk_text_buffer_set_text(buffer, buff, (int)strlen(buff));
         } else {
-            error_msg_to_buffer(buffer, "Invalid expression!");
+          error_msg_to_buffer(buffer, "Invalid expression!");
         }
       } else {
         error_msg_to_buffer(buffer, "Wrong or missing variable!");
