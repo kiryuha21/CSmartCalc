@@ -9,6 +9,7 @@ typedef struct list {
 list* list_init(char* lexem);
 list* add_element(list* elem, char* lexem);
 list* list_push(char* lexem, list* tail);
+list* list_find(list* root, const char* value);
 void list_destroy(list* root);
 void list_destroy_with_lexem(list* root);
 void handle_push(list** head, list** current, char* lexem);

@@ -18,15 +18,18 @@
 
 typedef struct EvaluationComponents {
   GtkWidget* expression_input;
+  GtkWidget* variable_input;
   GtkWidget* result_view;
 } EvaluationComponents;
 
-void on_input_focus(GtkWidget* w);
 void evaluate_expression(EvaluationComponents* components);
 gboolean on_key_press(GtkWidget* widget, GdkEventKey* event,
                       gpointer user_data);
+
 list* parse_line(char* line, int* err);
 list* parse_to_polish(list* lexems, int* err);
 double apply_polish(double x, list* parsed_polish, int* err);
+
+int is_empty(const char* string);
 
 #endif  // C7_SMARTCALC_V1_0_1_S21_SMART_CALC_H

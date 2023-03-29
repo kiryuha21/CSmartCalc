@@ -1,12 +1,12 @@
+#include <ctype.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
 
 #include "../s21_smart_calc.h"
 
 int is_solo_char(char line) {
   return line == '+' || line == '-' || line == '/' || line == '*' ||
-         line == '(' || line == ')' || line == 'x' || line == '^';
+         line == '(' || line == ')' || tolower(line) == 'x' || line == '^';
 }
 
 int has_prefix(const char* str, char* prefix) {
@@ -87,12 +87,15 @@ void push_unary(list** result, list** current, int* err) {
   }
 }
 
+int is_unary(list** current) {
+  return *current == NULL || strcmp((*current)->lexem, "(") == 0;
+}
+
 char* handle_lexem(char* position, list** result, list** current, int* err) {
   if (is_solo_char(*position)) {
-    if (*position == '-' &&
-        ((*current) == NULL || strcmp((*current)->lexem, "(") == 0)) {
+    if (*position == '-' && is_unary(current)) {
       push_unary(result, current, err);
-    } else {
+    } else if (*position != '+' || !is_unary(current)) {
       allocate_and_push(1, result, current, position, err);
     }
     ++position;

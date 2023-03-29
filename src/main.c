@@ -22,12 +22,13 @@ int main(int argc, char* argv[]) {
   g_signal_connect(main_window, "destroy", G_CALLBACK(gtk_main_quit), NULL);
 
   GObject* output = gtk_builder_get_object(builder, "result_view");
-  GObject* input = gtk_builder_get_object(builder, "expression_input");
+  GObject* exp_input = gtk_builder_get_object(builder, "expression_input");
+  GObject* var_input = gtk_builder_get_object(builder, "variable_input");
 
-  EvaluationComponents components = {GTK_WIDGET(input), GTK_WIDGET(output)};
-  g_signal_connect(input, "key_press_event", G_CALLBACK(on_key_press),
+  EvaluationComponents components = {GTK_WIDGET(exp_input),
+                                     GTK_WIDGET(var_input), GTK_WIDGET(output)};
+  g_signal_connect(exp_input, "key_press_event", G_CALLBACK(on_key_press),
                    &components);
-  g_signal_connect(input, "grab_focus", G_CALLBACK(on_input_focus), NULL);
 
   gtk_main();
 

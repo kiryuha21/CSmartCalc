@@ -132,6 +132,8 @@
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
             <property name="margin-end">20</property>
+            <property name="margin-top">20</property>
+            <property name="margin-bottom">20</property>
             <property name="vexpand">True</property>
             <style>
               <class name="option-button"/>
@@ -143,12 +145,16 @@
           </packing>
         </child>
         <child>
-          <object class="GtkEntry" id="variable_entrance">
+          <object class="GtkEntry" id="variable_input">
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="halign">start</property>
             <property name="margin-end">60</property>
             <property name="vexpand">True</property>
+            <property name="placeholder-text" translatable="yes">Enter value</property>
+            <style>
+              <class name="input-field"/>
+            </style>
           </object>
           <packing>
             <property name="left-attach">2</property>

@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "dynamic_structures.h"
 
@@ -62,4 +63,14 @@ void list_destroy_with_lexem(list* root) {
     free(temp->lexem);
     free(temp);
   }
+}
+
+list* list_find(list* root, const char* value) {
+  list* result = NULL;
+  for (list* curr = root; curr != NULL; curr = curr->next) {
+    if (strcmp(curr->lexem, value) == 0) {
+      result = curr;
+    }
+  }
+  return result;
 }
