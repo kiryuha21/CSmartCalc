@@ -15,16 +15,18 @@ list* list_init(char* lexem) {
 }
 
 list* add_element(struct list* elem, char* lexem) {
+  list* return_value = NULL;
+
   list* temp = elem->next;
   elem->next = (list*)calloc(1, sizeof(list));
-  list* return_value = NULL;
-  if (elem->next != NULL) {
+  if (elem->next != NULL) {  // if element was allocated
     elem->next->next = temp;
     elem->next->lexem = lexem;
     return_value = elem->next;
-  } else {
+  } else {  // restore state if not
     elem->next = temp;
   }
+
   return return_value;
 }
 
@@ -53,7 +55,7 @@ void list_destroy(list* root) {
   }
 }
 
-void extended_destroy(list* root) {
+void list_destroy_with_lexem(list* root) {
   while (root != NULL) {
     list* temp = root;
     root = root->next;

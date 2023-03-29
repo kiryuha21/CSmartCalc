@@ -1,11 +1,12 @@
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 
 #include "../s21_smart_calc.h"
 
 int is_solo_char(char line) {
   return line == '+' || line == '-' || line == '/' || line == '*' ||
-         line == '(' || line == ')' || line == 'x';
+         line == '(' || line == ')' || line == 'x' || line == '^';
 }
 
 int has_prefix(const char* str, char* prefix) {
@@ -22,8 +23,6 @@ int has_prefix(const char* str, char* prefix) {
   return result;
 }
 
-int is_digit(char ch) { return ch >= '0' && ch <= '9'; }
-
 int handle_number(char* line, list** result, list** current, int* err) {
   int capacity = 1;
   int size = 0;
@@ -34,7 +33,7 @@ int handle_number(char* line, list** result, list** current, int* err) {
   } else {
     int points_count = 0;
     char* temp = line;
-    while (*err == 0 && (is_digit(*temp) || *temp == '.')) {
+    while (*err == 0 && (isdigit(*temp) || *temp == '.')) {
       if (*temp == '.') {
         if (points_count == 0) {
           ++points_count;
@@ -107,7 +106,7 @@ char* handle_lexem(char* position, list** result, list** current, int* err) {
   } else if (has_prefix(position, "ln")) {
     allocate_and_push(2, result, current, position, err);
     position += 2;
-  } else if (is_digit(*position)) {
+  } else if (isdigit(*position)) {
     int count = handle_number(position, result, current, err);
     position += count;
   } else {

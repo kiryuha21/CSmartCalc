@@ -14,14 +14,16 @@ void evaluate_expression(EvaluationComponents* components) {
     list* parsed = parse_to_polish(lexems, &err);
     if (err == 0) {
       char buff[100] = {0};
-      while (parsed != NULL) {
-        gchar* text = parsed->lexem;
+      list* curr = parsed;
+      while (curr != NULL) {
+        gchar* text = curr->lexem;
         strcat(buff, text);
         strcat(buff, " ");
-        parsed = parsed->next;
+        curr = curr->next;
       }
       gtk_text_buffer_set_text(buffer, buff, (int)strlen(buff));
       gtk_text_view_set_buffer(GTK_TEXT_VIEW(components->result_view), buffer);
+      list_destroy(parsed);
     } else {
       gchar* text = "Polish notation error!";
       gtk_text_buffer_set_text(buffer, text, (int)strlen(text));
@@ -32,6 +34,7 @@ void evaluate_expression(EvaluationComponents* components) {
     gtk_text_buffer_set_text(buffer, text, (int)strlen(text));
     gtk_text_view_set_buffer(GTK_TEXT_VIEW(components->result_view), buffer);
   }
+  list_destroy_with_lexem(lexems);
 
   gtk_widget_grab_focus(components->result_view);
 }

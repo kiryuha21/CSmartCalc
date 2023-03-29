@@ -106,7 +106,9 @@ double apply_binary(double_stack** main_stack, char* lexem) {
   } else if (strcmp(lexem, "+") == 0) {
     result = second + first;
   } else if (strcmp(lexem, "/") == 0) {
-    result = second / first;
+      result = second / first;
+  } else if (strcmp(lexem, "^") == 0) {
+      result = pow(second, first);
   } else {  // lexem == *
     result = second * first;
   }
@@ -148,8 +150,7 @@ double apply_polish(double x, list* parsed_polish, int* err) {
       if (strcmp(temp->lexem, "x") == 0) {
         result = x;
       } else {
-        char* endptr;
-        result = strtod(temp->lexem, &endptr);
+        result = strtod(temp->lexem, NULL);
       }
     } else if (is_binary(temp->lexem)) {
       if (main_stack == NULL || main_stack->next == NULL) {

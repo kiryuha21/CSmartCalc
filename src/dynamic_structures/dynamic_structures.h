@@ -10,7 +10,7 @@ list* list_init(char* lexem);
 list* add_element(list* elem, char* lexem);
 list* list_push(char* lexem, list* tail);
 void list_destroy(list* root);
-void extended_destroy(list* root);
+void list_destroy_with_lexem(list* root);
 void handle_push(list** head, list** current, char* lexem);
 
 typedef struct string_stack {
