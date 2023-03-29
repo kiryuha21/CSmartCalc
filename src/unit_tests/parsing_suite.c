@@ -22,7 +22,7 @@ START_TEST(parse_correct_unaries) {
   ck_assert_ptr_eq(curr, NULL);
   ck_assert_int_eq(i, size);
 
-  list_destroy(queue);
+  list_destroy_with_lexem(queue);
 }
 END_TEST
 
@@ -34,7 +34,7 @@ START_TEST(parse_wrong_unaries) {
 
   ck_assert_int_eq(err, ERR);
 
-  list_destroy(queue);
+  list_destroy_with_lexem(queue);
 }
 
 START_TEST(parse_correct_numbers) {
@@ -55,7 +55,7 @@ START_TEST(parse_correct_numbers) {
   ck_assert_ptr_eq(curr, NULL);
   ck_assert_int_eq(i, size);
 
-  list_destroy(queue);
+  list_destroy_with_lexem(queue);
 }
 
 START_TEST(parse_wrong_numbers_1) {
@@ -66,7 +66,7 @@ START_TEST(parse_wrong_numbers_1) {
 
   ck_assert_int_eq(err, ERR);
 
-  list_destroy(queue);
+  list_destroy_with_lexem(queue);
 }
 
 START_TEST(parse_wrong_numbers_2) {
@@ -77,7 +77,7 @@ START_TEST(parse_wrong_numbers_2) {
 
   ck_assert_int_eq(err, ERR);
 
-  list_destroy(queue);
+  list_destroy_with_lexem(queue);
 }
 
 Suite* get_parsing_suite() {

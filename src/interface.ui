@@ -9,7 +9,7 @@
     <property name="default-width">800</property>
     <property name="default-height">600</property>
     <child>
-      <!-- n-columns=5 n-rows=4 -->
+      <!-- n-columns=5 n-rows=5 -->
       <object class="GtkGrid" id="main_grid">
         <property name="width-request">800</property>
         <property name="height-request">600</property>
@@ -43,6 +43,10 @@
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
             <property name="halign">center</property>
+            <property name="margin-start">10</property>
+            <property name="margin-end">10</property>
+            <property name="margin-top">20</property>
+            <property name="margin-bottom">20</property>
             <property name="vexpand">True</property>
             <style>
               <class name="option-button"/>
@@ -62,6 +66,10 @@
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
             <property name="halign">center</property>
+            <property name="margin-start">10</property>
+            <property name="margin-end">10</property>
+            <property name="margin-top">20</property>
+            <property name="margin-bottom">20</property>
             <property name="vexpand">True</property>
             <style>
               <class name="option-button"/>
@@ -113,9 +121,62 @@
           </object>
           <packing>
             <property name="left-attach">1</property>
-            <property name="top-attach">3</property>
+            <property name="top-attach">4</property>
             <property name="width">3</property>
           </packing>
+        </child>
+        <child>
+          <object class="GtkButton" id="graph_button">
+            <property name="label" translatable="yes">Build a graph</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="receives-default">True</property>
+            <property name="margin-end">20</property>
+            <property name="vexpand">True</property>
+            <style>
+              <class name="option-button"/>
+            </style>
+          </object>
+          <packing>
+            <property name="left-attach">3</property>
+            <property name="top-attach">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="variable_entrance">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="halign">start</property>
+            <property name="margin-end">60</property>
+            <property name="vexpand">True</property>
+          </object>
+          <packing>
+            <property name="left-attach">2</property>
+            <property name="top-attach">3</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="variable_label">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="halign">start</property>
+            <property name="valign">center</property>
+            <property name="vexpand">True</property>
+            <property name="label" translatable="yes">Enter X:</property>
+            <style>
+              <class name="variable-label"/>
+            </style>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">3</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+        <child>
+          <placeholder/>
         </child>
         <child>
           <placeholder/>

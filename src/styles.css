@@ -11,7 +11,6 @@
     background: darkslateblue;
     color: violet;
     font-size: 20px;
-    margin: 20px 10px;
     border-radius: 20px;
 }
 
@@ -25,4 +24,16 @@
     border-style: solid;
     margin: 20px;
     font-size: 20px;
+}
+
+.graph-button {
+    font-size: 16px;
+    margin-right: 20px;
+    background: darkslateblue;
+    color: violet;
+}
+
+.variable-label {
+    margin-left: 20px;
+    font-size: 24px;
 }
