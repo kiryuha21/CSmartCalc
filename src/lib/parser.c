@@ -100,7 +100,7 @@ char* handle_lexem(char* position, list** result, list** current, int* err) {
     }
     ++position;
   } else if (has_prefix(position, "sin") || has_prefix(position, "cos") ||
-             has_prefix(position, "tan") || has_prefix(position, "ctg") ||
+             has_prefix(position, "tan") || has_prefix(position, "log") ||
              has_prefix(position, "mod")) {
     allocate_and_push(3, result, current, position, err);
     position += 3;

@@ -32,9 +32,9 @@ START_TEST(order_test_2) {
 
 START_TEST(order_test_3) {
   const int size = 8;
-  char* line = "sin(cos(12 + ctg(5^3)))";
+  char* line = "sin(cos(12 + log(5^3)))";
   const char* correct_polish[] = {"12",  "5", "3",   "^",
-                                  "ctg", "+", "cos", "sin"};
+                                  "log", "+", "cos", "sin"};
 
   polish_notation_correct_test(line, correct_polish, size);
 }

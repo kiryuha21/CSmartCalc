@@ -1,7 +1,7 @@
 #include "unit_tests.h"
 
 START_TEST(parse_correct_unaries) {
-  char* line = "sin(10) cos(15) -tan(20) ctg(-30) sqrt(12) ln(27)";
+  char* line = "sin(10) cos(15) -tan(20) log(-30) sqrt(12) ln(27)";
 
   int err = 0;
   list* queue = parse_line(line, &err);
@@ -10,7 +10,7 @@ START_TEST(parse_correct_unaries) {
 
   const int size = 26;
   char* correct_lexems[] = {"sin",  "(", "10", ")", "cos", "(", "15", ")",  "-",
-                            "tan",  "(", "20", ")", "ctg", "(", "~",  "30", ")",
+                            "tan",  "(", "20", ")", "log", "(", "~",  "30", ")",
                             "sqrt", "(", "12", ")", "ln",  "(", "27", ")"};
 
   list* curr = queue;

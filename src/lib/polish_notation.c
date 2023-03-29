@@ -19,7 +19,7 @@ int is_num(char* lexem) {
 
 int is_prefix(char* lexem) {
   return strcmp(lexem, "sin") == 0 || strcmp(lexem, "cos") == 0 ||
-         strcmp(lexem, "tan") == 0 || strcmp(lexem, "ctg") == 0 ||
+         strcmp(lexem, "tan") == 0 || strcmp(lexem, "log") == 0 ||
          strcmp(lexem, "sqrt") == 0 || strcmp(lexem, "ln") == 0 ||
          strcmp(lexem, "~") == 0;
 }
@@ -132,8 +132,8 @@ double apply_prefix(double_stack** main_stack, char* lexem) {
     result = cos(first);
   } else if (strcmp(lexem, "tan") == 0) {
     result = tan(first);
-  } else if (strcmp(lexem, "ctg") == 0) {
-    result = tan(M_PI_2 - first);
+  } else if (strcmp(lexem, "log") == 0) {
+    result = log10(first);
   } else if (strcmp(lexem, "sqrt") == 0) {
     result = sqrt(first);
   } else if (strcmp(lexem, "ln") == 0) {
