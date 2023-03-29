@@ -14,6 +14,7 @@
 
 #define LOW_P 1
 #define HIGH_P 2
+#define HIGHEST_P 3
 
 typedef struct EvaluationComponents {
   GtkWidget* expression_input;

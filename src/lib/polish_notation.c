@@ -35,6 +35,8 @@ int get_priority(char* lexem) {
     val = LOW_P;
   } else if (strcmp(lexem, "*") == 0 || strcmp(lexem, "/") == 0) {
     val = HIGH_P;
+  } else if (strcmp(lexem, "^") == 0) {
+    val = HIGHEST_P;
   }
   return val;
 }

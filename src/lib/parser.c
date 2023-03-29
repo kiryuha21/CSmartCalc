@@ -8,6 +8,20 @@ int is_solo_char(char line) {
          line == '(' || line == ')' || line == 'x';
 }
 
+int has_prefix(const char* str, char* prefix) {
+  int result = 1;
+  if (strlen(prefix) > strlen(str)) {
+    result = 0;
+  } else {
+    for (; *prefix != '\0'; ++str, ++prefix) {
+      if (*str != *prefix) {
+        result = 0;
+      }
+    }
+  }
+  return result;
+}
+
 int is_digit(char ch) { return ch >= '0' && ch <= '9'; }
 
 int handle_number(char* line, list** result, list** current, int* err) {
@@ -83,21 +97,14 @@ char* handle_lexem(char* position, list** result, list** current, int* err) {
       allocate_and_push(1, result, current, position, err);
     }
     ++position;
-  } else if ((*position == 's' && *(position + 1) == 'i' &&
-              *(position + 2) == 'n') ||
-             (*position == 'c' && *(position + 1) == 'o' &&
-              *(position + 2) == 's') ||
-             (*position == 't' && *(position + 1) == 'a' &&
-              *(position + 2) == 'n') ||
-             (*position == 'c' && *(position + 1) == 't' &&
-              *(position + 2) == 'g')) {
+  } else if (has_prefix(position, "sin") || has_prefix(position, "cos") ||
+             has_prefix(position, "tan") || has_prefix(position, "ctg")) {
     allocate_and_push(3, result, current, position, err);
     position += 3;
-  } else if (*position == 's' && *(position + 1) == 'q' &&
-             *(position + 2) == 'r' && *(position + 3) == 't') {
+  } else if (has_prefix(position, "sqrt")) {
     allocate_and_push(4, result, current, position, err);
     position += 4;
-  } else if (*position == 'l' && *(position + 1) == 'n') {
+  } else if (has_prefix(position, "ln")) {
     allocate_and_push(2, result, current, position, err);
     position += 2;
   } else if (is_digit(*position)) {

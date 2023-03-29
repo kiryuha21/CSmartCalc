@@ -17,6 +17,7 @@ void evaluate_expression(EvaluationComponents* components) {
       while (parsed != NULL) {
         gchar* text = parsed->lexem;
         strcat(buff, text);
+        strcat(buff, " ");
         parsed = parsed->next;
       }
       gtk_text_buffer_set_text(buffer, buff, (int)strlen(buff));

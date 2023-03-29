@@ -1,5 +1,13 @@
-//
-// Created by kiryuha21 on 28.03.23.
-//
-
 #include "unit_tests.h"
+
+int main() {
+  Suite* suites[SUITES_COUNT] = {get_parsing_suite()};
+
+  for (int i = 0; i < SUITES_COUNT; ++i) {
+    SRunner* srunner = srunner_create(suites[i]);
+    srunner_run_all(srunner, CK_NORMAL);
+    srunner_free(srunner);
+  }
+
+  return 0;
+}
