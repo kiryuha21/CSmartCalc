@@ -37,16 +37,20 @@ void evaluate_expression(EvaluationComponents* components) {
       double input;
       if (safe_get_input(var_entry, lexems, &input) == 0) {
         double res = apply_polish(input, parsed, &err);
-        char buff[10] = {0};
-        sprintf(buff, "%.7f", res);
-        gtk_text_buffer_set_text(buffer, buff, (int)strlen(buff));
-        list_destroy(parsed);
+        if (err == 0) {
+            char buff[10] = {0};
+            sprintf(buff, "%.7f", res);
+            gtk_text_buffer_set_text(buffer, buff, (int) strlen(buff));
+        } else {
+            error_msg_to_buffer(buffer, "Invalid expression!");
+        }
       } else {
         error_msg_to_buffer(buffer, "Wrong or missing variable!");
       }
     } else {
       error_msg_to_buffer(buffer, "Polish notation error!");
     }
+    list_destroy(parsed);
   } else {
     error_msg_to_buffer(buffer, "Parsing error!");
   }

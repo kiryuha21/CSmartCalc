@@ -77,7 +77,7 @@ void allocate_and_push(int size, list** result, list** current, char* position,
   }
 }
 
-void push_unary(list** result, list** current, int* err) {
+void push_unary_minus(list** result, list** current, int* err) {
   char* tilda = (char*)calloc(2, sizeof(char));
   if (tilda == NULL) {
     *err = ERR;
@@ -94,7 +94,7 @@ int is_unary(list** current) {
 char* handle_lexem(char* position, list** result, list** current, int* err) {
   if (is_solo_char(*position)) {
     if (*position == '-' && is_unary(current)) {
-      push_unary(result, current, err);
+      push_unary_minus(result, current, err);
     } else if (*position != '+' || !is_unary(current)) {
       allocate_and_push(1, result, current, position, err);
     }
