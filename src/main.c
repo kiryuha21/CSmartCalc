@@ -25,10 +25,12 @@ int main(int argc, char* argv[]) {
   GObject* exp_input = gtk_builder_get_object(builder, "expression_input");
   GObject* var_input = gtk_builder_get_object(builder, "variable_input");
 
-  EvaluationComponents components = {GTK_WIDGET(exp_input),
-                                     GTK_WIDGET(var_input), GTK_WIDGET(output)};
+  EvaluationComponents components = {exp_input, var_input, output};
   g_signal_connect(exp_input, "key_press_event", G_CALLBACK(on_key_press),
                    &components);
+
+  GObject* graph_button = gtk_builder_get_object(builder, "graph_button");
+  g_signal_connect(graph_button, "clicked", G_CALLBACK(main_plot), exp_input);
 
   gtk_main();
 
