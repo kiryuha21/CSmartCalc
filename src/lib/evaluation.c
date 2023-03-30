@@ -9,21 +9,7 @@ int safe_get_input(GtkEntry* entry, list* lexems, double* input) {
     }
     *input = 0;
   } else {
-    char* input_copy = calloc(strlen(str_value) + 1, sizeof(char));
-    strcpy(input_copy, str_value);
-
-    char* sep = strchr(input_copy, '.');
-    if (sep != NULL) {
-      *sep = ',';
-    }
-
-    char* endptr;
-    *input = strtod(input_copy, &endptr);
-    if (*endptr != '\0') {
-      return_code = ERR;
-    }
-
-    free(input_copy);
+    return_code = safe_get_double_from_str(str_value, input);
   }
   return return_code;
 }
@@ -32,10 +18,10 @@ void error_msg_to_buffer(GtkTextBuffer* buffer, char* text) {
   gtk_text_buffer_set_text(buffer, text, (int)strlen(text));
 }
 
-void evaluate_expression(EvaluationComponents* components) {
-  GtkEntry* exp_entry = GTK_ENTRY(components->expression_input);
-  GtkEntry* var_entry = GTK_ENTRY(components->variable_input);
-  GtkTextView* view = GTK_TEXT_VIEW(components->result_view);
+void evaluate_expression(GPtrArray* arguments) {
+  GtkEntry* exp_entry = GTK_ENTRY(arguments->pdata[0]);
+  GtkEntry* var_entry = GTK_ENTRY(arguments->pdata[1]);
+  GtkTextView* view = GTK_TEXT_VIEW(arguments->pdata[2]);
   GtkTextBuffer* buffer = gtk_text_view_get_buffer(view);
 
   int err = 0;
@@ -48,7 +34,7 @@ void evaluate_expression(EvaluationComponents* components) {
       if (safe_get_input(var_entry, lexems, &input) == 0) {
         double res = apply_polish(input, parsed, &err);
         if (err == 0) {
-          char buff[20] = {0};
+          char buff[100] = {0};
           sprintf(buff, "%.7f", res);
           gtk_text_buffer_set_text(buffer, buff, (int)strlen(buff));
         } else {
@@ -72,9 +58,7 @@ gboolean on_key_press(GtkWidget* widget, GdkEventKey* event,
   switch (event->keyval) {
     case GDK_KEY_equal:
       printf("=         was pressed on %s", gtk_widget_get_name(widget));
-
-      EvaluationComponents* components = user_data;
-      evaluate_expression(components);
+      evaluate_expression(user_data);
 
       break;
     default:
