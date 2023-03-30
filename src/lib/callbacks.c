@@ -9,11 +9,21 @@ int safe_get_input(GtkEntry* entry, list* lexems, double* input) {
     }
     *input = 0;
   } else {
+    char* input_copy = calloc(strlen(str_value) + 1, sizeof(char));
+    strcpy(input_copy, str_value);
+
+    char* sep = strchr(input_copy, '.');
+    if (sep != NULL) {
+      *sep = ',';
+    }
+
     char* endptr;
-    *input = strtod(str_value, &endptr);
+    *input = strtod(input_copy, &endptr);
     if (*endptr != '\0') {
       return_code = ERR;
     }
+
+    free(input_copy);
   }
   return return_code;
 }
@@ -38,7 +48,7 @@ void evaluate_expression(EvaluationComponents* components) {
       if (safe_get_input(var_entry, lexems, &input) == 0) {
         double res = apply_polish(input, parsed, &err);
         if (err == 0) {
-          char buff[10] = {0};
+          char buff[20] = {0};
           sprintf(buff, "%.7f", res);
           gtk_text_buffer_set_text(buffer, buff, (int)strlen(buff));
         } else {

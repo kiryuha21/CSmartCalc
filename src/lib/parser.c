@@ -111,7 +111,7 @@ char* handle_lexem(char* position, list** result, list** current, int* err) {
   } else if (has_prefix(position, "ln")) {
     allocate_and_push(2, result, current, position, err);
     position += 2;
-  } else if (isdigit(*position)) {
+  } else if (isdigit(*position) || *(position) == '.') {
     int count = handle_number(position, result, current, err);
     position += count;
   } else {

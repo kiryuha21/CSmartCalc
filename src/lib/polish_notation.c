@@ -161,7 +161,15 @@ double apply_polish(double x, list* parsed_polish, int* err) {
       if (strcmp(temp->lexem, "x") == 0) {
         result = x;
       } else {
-        result = strtod(temp->lexem, NULL);
+        char* sep = strchr(temp->lexem, '.');
+        if (sep != NULL) {
+          *sep = ',';
+        }
+        char* endptr;
+        result = strtod(temp->lexem, &endptr);
+        if (*endptr != '\0') {
+          *err = ERR;
+        }
       }
     } else if (is_binary(temp->lexem)) {
       if (main_stack == NULL || main_stack->next == NULL) {
