@@ -1,6 +1,7 @@
 #include "s21_smart_calc.h"
 
 int main(int argc, char* argv[]) {
+  setlocale(LC_NUMERIC, "ru_RU.UTF-8");
   gtk_init(&argc, &argv);
   GError* error = NULL;
 

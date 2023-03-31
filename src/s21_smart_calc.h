@@ -3,6 +3,7 @@
 
 #include <gdk/gdkkeysyms.h>
 #include <gtk/gtk.h>
+#include <locale.h>
 
 #include "dynamic_structures/dynamic_structures.h"
 

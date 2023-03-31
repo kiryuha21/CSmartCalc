@@ -17,16 +17,16 @@ int is_empty(const char* string) {
 }
 
 int safe_get_double_from_str(const char* str, double* val) {
+  if (strchr(str, ',') != NULL) {
+    return ERR;
+  }
+
   int return_code = 0;
   char* input_copy = calloc(strlen(str) + 1, sizeof(char));
   strcpy(input_copy, str);
 
-  char* sep = strchr(input_copy, '.');
-  if (sep != NULL) {
-    *sep = ',';
-  }
-
-  char* endptr;
+  char* endptr = NULL;
+  safe_solo_char_replace(input_copy, '.', ',');
   *val = strtod(input_copy, &endptr);
   if (*endptr != '\0') {
     return_code = ERR;

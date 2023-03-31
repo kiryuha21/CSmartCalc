@@ -35,3 +35,19 @@ void calculation(char* line, double input, double expected) {
   list_destroy_with_lexem(parsed);
   list_destroy(polished);
 }
+
+void erroneous_pure_calculation(char* line) {
+  int err = 0;
+
+  list* parsed = parse_line(line, &err);
+  ck_assert_int_eq(err, 0);
+
+  list* polished = parse_to_polish(parsed, &err);
+  ck_assert_int_eq(err, 0);
+
+  apply_polish(0, polished, &err);
+  ck_assert_int_eq(err, ERR);
+
+  list_destroy_with_lexem(parsed);
+  list_destroy(polished);
+}

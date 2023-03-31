@@ -59,7 +59,6 @@ gboolean on_key_press(GtkWidget* widget, GdkEventKey* event,
     case GDK_KEY_equal:
       printf("=         was pressed on %s", gtk_widget_get_name(widget));
       evaluate_expression(user_data);
-
       break;
     default:
       printf("%-10s was pressed on %s\n", gdk_keyval_name(event->keyval),

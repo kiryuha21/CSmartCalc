@@ -1,6 +1,7 @@
 #include "unit_tests.h"
 
 int main() {
+  setlocale(LC_NUMERIC, "ru_RU.UTF-8");
   Suite* suites[SUITES_COUNT] = {get_parsing_suite(),
                                  get_polish_notation_suite(),
                                  get_calculation_suite()};

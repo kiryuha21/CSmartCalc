@@ -161,11 +161,8 @@ double apply_polish(double x, list* parsed_polish, int* err) {
       if (strcmp(temp->lexem, "x") == 0) {
         result = x;
       } else {
-        char* sep = strchr(temp->lexem, '.');
-        if (sep != NULL) {
-          *sep = ',';
-        }
-        char* endptr;
+        char* endptr = NULL;
+        safe_solo_char_replace(temp->lexem, '.', ',');
         result = strtod(temp->lexem, &endptr);
         if (*endptr != '\0') {
           *err = ERR;
