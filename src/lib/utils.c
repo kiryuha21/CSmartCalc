@@ -36,6 +36,29 @@ int safe_get_double_from_str(const char* str, double* val) {
   return return_code;
 }
 
+int create_styled_window(GtkBuilder** builder, const char* ui_filename,
+                         GtkCssProvider** provider) {
+  GError* error = NULL;
+
+  *builder = gtk_builder_new();
+  if (gtk_builder_add_from_file(*builder, ui_filename, &error) == 0) {
+    g_printerr("Error loading file: %s\n", error->message);
+    g_clear_error(&error);
+    return ERR;
+  }
+
+  *provider = gtk_css_provider_new();
+  if (gtk_css_provider_load_from_path(*provider, STYLES_FILE, &error) == 0) {
+    g_printerr("Error loading file: %s\n", error->message);
+    g_clear_error(&error);
+    return ERR;
+  }
+  gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
+                                            GTK_STYLE_PROVIDER(*provider),
+                                            GTK_STYLE_PROVIDER_PRIORITY_USER);
+  return 0;
+}
+
 void safe_solo_char_replace(char* str, char sym, char replacer) {
   char* search = strchr(str, sym);
   if (search != NULL) {

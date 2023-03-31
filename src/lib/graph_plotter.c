@@ -32,7 +32,7 @@ void gnuplot_finished(GObject *source_object, GAsyncResult *res,
                       GtkWidget *image) {
   UNUSED(res);
 
-  gtk_image_set_from_file(GTK_IMAGE(image), PLOT_FILE);
+  gtk_image_set_from_file(GTK_IMAGE(image), PLOT_PNG_FILE);
   gtk_widget_queue_draw(image);
   if (g_subprocess_get_successful(G_SUBPROCESS(source_object))) {
     g_print("Gnuplot Success\n");
@@ -107,7 +107,7 @@ void plot_data(GtkWidget *button, gpointer user_data) {
       "set ylabel \"Y-axis\"\n"
       "set xrange [%s:%s]\n"
       "plot %s",
-      width, height, PLOT_FILE,
+      width, height, PLOT_PNG_FILE,
       limits->pdata[0] ? (char *)limits->pdata[0] : "",
       limits->pdata[1] ? (char *)limits->pdata[1] : "", function);
   g_ptr_array_free(limits, gtk_true());
@@ -119,22 +119,14 @@ void plot_data(GtkWidget *button, gpointer user_data) {
   g_free(script);
 }
 
-void plot_main(GtkWidget *widget, gpointer data) {
+void create_graph_plotter(GtkWidget *widget, gpointer data) {
   UNUSED(widget);
 
-  GError *error = NULL;
-  GtkBuilder *builder = gtk_builder_new();
-  if (gtk_builder_add_from_file(builder, PLOT_UI_FILE, &error) == 0) {
-    g_printerr("Error loading file: %s\n", error->message);
-    g_clear_error(&error);
+  GtkBuilder *builder = NULL;
+  GtkCssProvider *provider = NULL;
+  if (create_styled_window(&builder, PLOT_UI_FILE, &provider) == ERR) {
     return;
   }
-
-  GtkCssProvider *cssProvider = gtk_css_provider_new();
-  gtk_css_provider_load_from_path(cssProvider, STYLES_FILE, NULL);
-  gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
-                                            GTK_STYLE_PROVIDER(cssProvider),
-                                            GTK_STYLE_PROVIDER_PRIORITY_USER);
 
   gchar *function = (gchar *)gtk_entry_get_text(GTK_ENTRY(data));
   GObject *min_x_entry = gtk_builder_get_object(builder, "min_x_entry");

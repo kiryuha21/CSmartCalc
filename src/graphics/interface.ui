@@ -106,7 +106,7 @@
             <child>
               <object class="GtkTextView" id="result_view">
                 <property name="visible">True</property>
-                <property name="can-focus">True</property>
+                <property name="can-focus">False</property>
                 <property name="vexpand">True</property>
                 <property name="editable">False</property>
               </object>

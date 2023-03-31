@@ -20,15 +20,21 @@
 #define HIGHEST_P 3
 
 #define STYLES_FILE "graphics/styles.css"
-#define PLOT_FILE "graphics/plot.png"
+
+#define PLOT_PNG_FILE "graphics/plot.png"
+
 #define MAIN_UI_FILE "graphics/interface.ui"
 #define PLOT_UI_FILE "graphics/graph.ui"
+#define DEPOSIT_UI_FILE "graphics/deposit.ui"
+#define CREDIT_UI_FILE "graphics/credit.ui"
 
 void evaluate_expression(GPtrArray* arguments);
 gboolean on_key_press(GtkWidget* widget, GdkEventKey* event,
                       gpointer user_data);
 
-void plot_main(GtkWidget* widget, gpointer data);
+void create_graph_plotter(GtkWidget* widget, gpointer data);
+void create_credit_calculator(GtkWidget* widget, gpointer data);
+void create_deposit_calculator(GtkWidget* widget, gpointer data);
 
 list* parse_line(char* line, int* err);
 list* parse_to_polish(list* lexems, int* err);
@@ -37,5 +43,7 @@ double apply_polish(double x, list* parsed_polish, int* err);
 int is_empty(const char* string);
 int safe_get_double_from_str(const char* str, double* val);
 void safe_solo_char_replace(char* str, char sym, char replacer);
+int create_styled_window(GtkBuilder** builder, const char* ui_filename,
+                         GtkCssProvider** provider);
 
 #endif  // C7_SMARTCALC_V1_0_1_S21_SMART_CALC_H

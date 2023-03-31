@@ -7,11 +7,21 @@
     color: darkviolet;
 }
 
+.subheader {
+    font-size: 26px;
+    color: darkslateblue;
+}
+
 .option-button {
     background: darkslateblue;
     color: violet;
     font-size: 20px;
     border-radius: 20px;
+}
+
+.radio-button {
+    font-size: 24px;
+    color: mediumvioletred;
 }
 
 .input-field {
@@ -24,6 +34,7 @@
     border-style: solid;
     margin: 20px;
     font-size: 20px;
+    min-width: 200px;
 }
 
 .graph-button {
@@ -41,4 +52,9 @@
 .plot-contents {
     margin: 30px 15px 15px;
     font-size: 20px;
+}
+
+.credit-button {
+    min-width: 200px;
+    margin-bottom: 30px;
 }

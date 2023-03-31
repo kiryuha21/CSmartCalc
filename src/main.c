@@ -3,20 +3,12 @@
 int main(int argc, char* argv[]) {
   setlocale(LC_NUMERIC, "ru_RU.UTF-8");
   gtk_init(&argc, &argv);
-  GError* error = NULL;
 
-  GtkBuilder* builder = gtk_builder_new();
-  if (gtk_builder_add_from_file(builder, MAIN_UI_FILE, &error) == 0) {
-    g_printerr("Error loading file: %s\n", error->message);
-    g_clear_error(&error);
-    return 1;
+  GtkBuilder* builder = NULL;
+  GtkCssProvider* provider = NULL;
+  if (create_styled_window(&builder, MAIN_UI_FILE, &provider) == ERR) {
+    return 0;
   }
-
-  GtkCssProvider* cssProvider = gtk_css_provider_new();
-  gtk_css_provider_load_from_path(cssProvider, STYLES_FILE, NULL);
-  gtk_style_context_add_provider_for_screen(gdk_screen_get_default(),
-                                            GTK_STYLE_PROVIDER(cssProvider),
-                                            GTK_STYLE_PROVIDER_PRIORITY_USER);
 
   /* Connect signal handlers to the constructed widgets. */
   GObject* main_window = gtk_builder_get_object(builder, "main_window");
@@ -35,7 +27,18 @@ int main(int argc, char* argv[]) {
                    arguments_array);
 
   GObject* graph_button = gtk_builder_get_object(builder, "graph_button");
-  g_signal_connect(graph_button, "clicked", G_CALLBACK(plot_main), exp_input);
+  g_signal_connect(graph_button, "clicked", G_CALLBACK(create_graph_plotter),
+                   exp_input);
+
+  GObject* credit_calc_button =
+      gtk_builder_get_object(builder, "credit_calc_button");
+  g_signal_connect(credit_calc_button, "clicked",
+                   G_CALLBACK(create_credit_calculator), NULL);
+
+  GObject* deposit_calc_button =
+      gtk_builder_get_object(builder, "deposit_calc_button");
+  g_signal_connect(deposit_calc_button, "clicked",
+                   G_CALLBACK(create_deposit_calculator), NULL);
 
   gtk_main();
 
