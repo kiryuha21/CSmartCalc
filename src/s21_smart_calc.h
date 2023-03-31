@@ -10,19 +10,24 @@
 #define M_PI_2 1.57079632679489661923
 #endif
 
+#define UNUSED(x) (void)(x)
+
 #define ERR (-1)
 
 #define LOW_P 1
 #define HIGH_P 2
 #define HIGHEST_P 3
 
-#define PLOT_FILE "plot.png"
+#define STYLES_FILE "graphics/styles.css"
+#define PLOT_FILE "graphics/plot.png"
+#define MAIN_UI_FILE "graphics/interface.ui"
+#define PLOT_UI_FILE "graphics/graph.ui"
 
 void evaluate_expression(GPtrArray* arguments);
 gboolean on_key_press(GtkWidget* widget, GdkEventKey* event,
                       gpointer user_data);
 
-void main_plot(GtkWidget* widget, gpointer data);
+void plot_main(GtkWidget* widget, gpointer data);
 
 list* parse_line(char* line, int* err);
 list* parse_to_polish(list* lexems, int* err);
