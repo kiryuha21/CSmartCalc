@@ -6,6 +6,7 @@ src/report
 
 # Generated files
 src/points.txt
+src/graphics/plot.png
 
 # Prerequisites
 *.d

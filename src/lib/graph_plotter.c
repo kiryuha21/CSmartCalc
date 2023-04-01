@@ -116,6 +116,12 @@ void plot_data(GtkWidget *button, gpointer user_data) {
   GtkLabel *label = GTK_LABEL(array->pdata[5]);
   GtkWidget *plot_image = GTK_WIDGET(array->pdata[6]);
 
+  if (is_empty(min_x) || is_empty(max_x) || is_empty(min_y) ||
+      is_empty(max_y)) {
+    gtk_label_set_label(label, MISSING_FIELDS_MSG);
+    return;
+  }
+
   char *err_msg = generate_datafile(function, min_x, max_x);
   if (err_msg != NULL) {
     gtk_label_set_label(label, err_msg);
@@ -134,8 +140,9 @@ void plot_data(GtkWidget *button, gpointer user_data) {
       "set xrange [%s:%s]\n"
       "set yrange [%s:%s]\n"
       "set decimalsign locale\n"
-      "plot \"%s\" with lines",
-      width, height, PLOT_PNG_FILE, min_x, max_x, min_y, max_y, POINTS_FILE);
+      "plot \"%s\" title \"%s\" ps 0.7",
+      width, height, PLOT_PNG_FILE, min_x, max_x, min_y, max_y, POINTS_FILE,
+      function);
   g_print("%s\n", script);
 
   call_gnuplot(cmd, script, plot_image);

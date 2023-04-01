@@ -26,6 +26,7 @@
 #define NOTATION_ERROR_MSG "Polish notation error!"
 #define PARSING_ERROR_MSG "Parsing error!"
 #define FILE_ERROR_MSG "File opening error!"
+#define MISSING_FIELDS_MSG "Missing fields!"
 
 #define POINTS_AMOUNT 1000
 #define POINTS_FILE "points.txt"
