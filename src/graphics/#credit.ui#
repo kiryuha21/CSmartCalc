@@ -317,6 +317,7 @@
                 <property name="margin-end">10</property>
                 <property name="active">True</property>
                 <property name="draw-indicator">True</property>
+                <property name="group">differentiated_radio</property>
                 <style>
                   <class name="radio-button"/>
                 </style>

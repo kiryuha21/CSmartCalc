@@ -34,9 +34,10 @@ void evaluate_expression(GPtrArray* arguments) {
       if (safe_get_input(var_entry, lexems, &input) == 0) {
         double res = apply_polish(input, parsed, &err);
         if (err == 0) {
-          char buff[100] = {0};
+          char* buff = calloc(100, sizeof(char));
           sprintf(buff, "%.7f", res);
           gtk_text_buffer_set_text(buffer, buff, (int)strlen(buff));
+          free(buff);
         } else {
           error_msg_to_buffer(buffer, INVALID_EXPRESSION_MSG);
         }

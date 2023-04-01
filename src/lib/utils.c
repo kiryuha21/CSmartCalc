@@ -59,6 +59,12 @@ int create_styled_window(GtkBuilder** builder, const char* ui_filename,
   return 0;
 }
 
+void free_array_on_close(GtkWidget* window, gpointer user_data) {
+  GPtrArray* array = user_data;
+  g_ptr_array_free(array, gtk_false());
+  printf("%s freed array", gtk_widget_get_name(window));
+}
+
 void safe_solo_char_replace(char* str, char sym, char replacer) {
   char* search = strchr(str, sym);
   if (search != NULL) {

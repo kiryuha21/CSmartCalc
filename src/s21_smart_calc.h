@@ -40,6 +40,15 @@
 #define DEPOSIT_UI_FILE "graphics/deposit.ui"
 #define CREDIT_UI_FILE "graphics/credit.ui"
 
+typedef struct CreditComponents {
+  double amount;
+  double term;
+  double rate;
+  GtkTextView* monthly_payment;
+  GtkTextView* overpayment;
+  GtkTextView* total_payment;
+} CreditComponents;
+
 void evaluate_expression(GPtrArray* arguments);
 gboolean on_key_press(GtkWidget* widget, GdkEventKey* event,
                       gpointer user_data);
@@ -55,6 +64,7 @@ double apply_polish(double x, list* parsed_polish, int* err);
 int is_empty(const char* string);
 int safe_get_double_from_str(const char* str, double* val);
 void safe_solo_char_replace(char* str, char sym, char replacer);
+void free_array_on_close(GtkWidget* window, gpointer user_data);
 int create_styled_window(GtkBuilder** builder, const char* ui_filename,
                          GtkCssProvider** provider);
 

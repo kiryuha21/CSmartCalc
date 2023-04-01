@@ -58,7 +58,7 @@
             <property name="can-focus">False</property>
             <property name="halign">end</property>
             <property name="vexpand">True</property>
-            <property name="label" translatable="yes">Year Rate:</property>
+            <property name="label" translatable="yes">Rate:</property>
             <style>
               <class name="input-field"/>
             </style>
@@ -214,7 +214,7 @@
             <property name="can-focus">False</property>
             <property name="halign">end</property>
             <property name="vexpand">True</property>
-            <property name="label" translatable="yes">Term(in months):</property>
+            <property name="label" translatable="yes">Term:</property>
             <style>
               <class name="input-field"/>
             </style>

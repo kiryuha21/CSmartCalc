@@ -2,12 +2,6 @@
 
 #include "../s21_smart_calc.h"
 
-void free_array(GtkWidget *window, gpointer user_data) {
-  GPtrArray *array = user_data;
-  g_ptr_array_free(array, gtk_false());
-  printf("%s freed array", gtk_widget_get_name(window));
-}
-
 gboolean read_err(gpointer user_data) {
   GObject *pollable_stream = user_data;
 
@@ -193,7 +187,7 @@ void create_graph_plotter(GtkWidget *widget, gpointer data) {
 
   GObject *graph_window = gtk_builder_get_object(builder, "graph_window");
   g_signal_connect(graph_window, "destroy", G_CALLBACK(gtk_window_close), NULL);
-  g_signal_connect(graph_window, "destroy", G_CALLBACK(free_array),
+  g_signal_connect(graph_window, "destroy", G_CALLBACK(free_array_on_close),
                    arguments_array);
 
   GObject *plot_button = gtk_builder_get_object(builder, "plot_button");

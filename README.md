@@ -89,7 +89,7 @@ Twenty years later, Leibniz created his own version of the calculator, the princ
 However, Leibniz's calculator had a moving part, which became the prototype of moving carriages of future desktop calculators, and a handle that turned a stepped wheel, which was later replaced with cylinder.
 These additions made repetitive operations like multiplication and division much faster.
 
-Although Leibniz's calculator slightly simplified the process of calculation, it gave an impetus to other inventors - the moving part and cylinder of Leibniz's calculator were used in calculating machines until the mid-twentieth century.
+Although Leibniz's calculator slightly simplified the process of credit_calculation, it gave an impetus to other inventors - the moving part and cylinder of Leibniz's calculator were used in calculating machines until the mid-twentieth century.
 
 Then in 1957, Casio released one of the first mass-produced calculators - 14-A. It performed four arithmetic operations on 14-digit decimal numbers. The machine used a relay, weighed 140 kg and looked like a table with a computation unit, keyboard and display, using 300 watts.
 
@@ -186,7 +186,7 @@ The SmartCalc v1.0 program must be implemented:
 <br/>For Linix: GTK+, CEF, Qt
 <br/>For Mac: GTK+, Nuklear, raygui, microui, libagar, libui, IUP, LCUI, CEF, Qt
 - Both integers and real numbers with a dot can be input into the program. You can optionally provide the input of numbers in exponential notation
-- The calculation must be done after you complete entering the calculating expression and press the `=` symbol.
+- The credit_calculation must be done after you complete entering the calculating expression and press the `=` symbol.
 - Calculating arbitrary bracketed arithmetic expressions in infix notation
 - Calculate arbitrary bracketed arithmetic expressions in infix notation with substitution of the value of the variable _x_ as a number
 - Plotting a graph of a function given by an expression in infix notation with the variable _x_ (with coordinate axes, mark of the used scale and an adaptive grid)
