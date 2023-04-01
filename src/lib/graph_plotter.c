@@ -60,21 +60,22 @@ void call_gnuplot(gchar *cmd, gchar *script, GtkWidget *plot_image) {
   g_output_stream_close(stream, NULL, NULL);
 }
 
-char *generate_datafile(gchar *function, const gchar *min_x,
-                        const gchar *max_x) {
-  double x_left = 0, x_right = 0;
-  if (safe_get_double_from_str(min_x, &x_left) != 0 ||
-      safe_get_double_from_str(max_x, &x_right) != 0) {
-    return INVALID_NUMBER_MSG;
+char *validate_range(const gchar *sfirst, const gchar *ssecond, double *first,
+                     double *second) {
+  char *msg = NULL;
+  if (safe_get_double_from_str(sfirst, first) != 0 ||
+      safe_get_double_from_str(ssecond, second) != 0) {
+    msg = INVALID_NUMBER_MSG;
+  } else if (*second - *first <= 0) {
+    msg = INVALID_LIMITS_MSG;
   }
+  return msg;
+}
 
-  double diff = x_right - x_left;
-  if (diff < 0) {
-    return INVALID_LIMITS_MSG;
-  }
-
+char *generate_datafile(gchar *function, double min_x, double max_x) {
   int err = 0;
   char *err_msg = NULL;
+  double diff = max_x - min_x;
   list *parsed = parse_line(function, &err);
   if (err == 0) {
     list *polished = parse_to_polish(parsed, &err);
@@ -83,7 +84,7 @@ char *generate_datafile(gchar *function, const gchar *min_x,
       if (points != NULL) {
         double delta = diff / POINTS_AMOUNT;
         for (int i = 0; i < POINTS_AMOUNT && !err; ++i) {
-          double x = x_left + delta * i;
+          double x = min_x + delta * i;
           double y = apply_polish(x, polished, &err);
           if (err == 0 && !isnan(y) && !isinf(y)) {
             fprintf(points, "%f %f\n", x, y);
@@ -122,7 +123,20 @@ void plot_data(GtkWidget *button, gpointer user_data) {
     return;
   }
 
-  char *err_msg = generate_datafile(function, min_x, max_x);
+  double left_x = 0, right_x = 0, lower_y = 0, upper_y = 0;
+  char *err_msg = validate_range(min_x, max_x, &left_x, &right_x);
+  if (err_msg != NULL) {
+    gtk_label_set_label(label, err_msg);
+    return;
+  }
+
+  err_msg = validate_range(min_y, max_y, &lower_y, &upper_y);
+  if (err_msg != NULL) {
+    gtk_label_set_label(label, err_msg);
+    return;
+  }
+
+  err_msg = generate_datafile(function, left_x, right_x);
   if (err_msg != NULL) {
     gtk_label_set_label(label, err_msg);
     return;
@@ -140,9 +154,9 @@ void plot_data(GtkWidget *button, gpointer user_data) {
       "set xrange [%s:%s]\n"
       "set yrange [%s:%s]\n"
       "set decimalsign locale\n"
-      "plot \"%s\" title \"%s\" ps 0.7",
+      "plot \"%s\" title \"%s with scale %f\" ps 0.7",
       width, height, PLOT_PNG_FILE, min_x, max_x, min_y, max_y, POINTS_FILE,
-      function);
+      function, (upper_y - lower_y) / (right_x - left_x));
   g_print("%s\n", script);
 
   call_gnuplot(cmd, script, plot_image);

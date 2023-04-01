@@ -28,7 +28,7 @@
 #define FILE_ERROR_MSG "File opening error!"
 #define MISSING_FIELDS_MSG "Missing fields!"
 
-#define POINTS_AMOUNT 1000
+#define POINTS_AMOUNT 100000
 #define POINTS_FILE "points.txt"
 
 #define STYLES_FILE "graphics/styles.css"
