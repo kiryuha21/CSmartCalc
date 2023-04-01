@@ -38,17 +38,17 @@ void evaluate_expression(GPtrArray* arguments) {
           sprintf(buff, "%.7f", res);
           gtk_text_buffer_set_text(buffer, buff, (int)strlen(buff));
         } else {
-          error_msg_to_buffer(buffer, "Invalid expression!");
+          error_msg_to_buffer(buffer, INVALID_EXPRESSION_MSG);
         }
       } else {
-        error_msg_to_buffer(buffer, "Wrong or missing variable!");
+        error_msg_to_buffer(buffer, INVALID_VARIABLE_MSG);
       }
     } else {
-      error_msg_to_buffer(buffer, "Polish notation error!");
+      error_msg_to_buffer(buffer, NOTATION_ERROR_MSG);
     }
     list_destroy(parsed);
   } else {
-    error_msg_to_buffer(buffer, "Parsing error!");
+    error_msg_to_buffer(buffer, PARSING_ERROR_MSG);
   }
   list_destroy_with_lexem(lexems);
 }

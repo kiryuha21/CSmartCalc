@@ -10,39 +10,10 @@
     <property name="default-width">800</property>
     <property name="default-height">600</property>
     <child>
-      <!-- n-columns=5 n-rows=3 -->
+      <!-- n-columns=4 n-rows=5 -->
       <object class="GtkGrid">
         <property name="visible">True</property>
         <property name="can-focus">False</property>
-        <child>
-          <object class="GtkScrolledWindow">
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <property name="shadow-type">in</property>
-            <child>
-              <object class="GtkViewport">
-                <property name="visible">True</property>
-                <property name="can-focus">False</property>
-                <child>
-                  <object class="GtkImage" id="graph_image">
-                    <property name="width-request">800</property>
-                    <property name="height-request">450</property>
-                    <property name="visible">True</property>
-                    <property name="can-focus">False</property>
-                    <property name="hexpand">True</property>
-                    <property name="vexpand">True</property>
-                    <property name="stock">gtk-missing-image</property>
-                  </object>
-                </child>
-              </object>
-            </child>
-          </object>
-          <packing>
-            <property name="left-attach">0</property>
-            <property name="top-attach">2</property>
-            <property name="width">5</property>
-          </packing>
-        </child>
         <child>
           <object class="GtkEntry" id="min_x_entry">
             <property name="visible">True</property>
@@ -60,45 +31,21 @@
           <object class="GtkLabel" id="graph_label">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
+            <property name="margin-top">10</property>
             <property name="label" translatable="yes">Graph</property>
+            <property name="justify">center</property>
             <style>
               <class name="header"/>
             </style>
           </object>
           <packing>
-            <property name="left-attach">2</property>
+            <property name="left-attach">0</property>
             <property name="top-attach">0</property>
+            <property name="width">4</property>
           </packing>
         </child>
         <child>
-          <object class="GtkEntry" id="max_x_entry">
-            <property name="visible">True</property>
-            <property name="can-focus">True</property>
-            <style>
-              <class name="plot-contents"/>
-            </style>
-          </object>
-          <packing>
-            <property name="left-attach">4</property>
-            <property name="top-attach">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel">
-            <property name="visible">True</property>
-            <property name="can-focus">False</property>
-            <property name="label" translatable="yes">Max x</property>
-            <style>
-              <class name="plot-contents"/>
-            </style>
-          </object>
-          <packing>
-            <property name="left-attach">3</property>
-            <property name="top-attach">1</property>
-          </packing>
-        </child>
-        <child>
-          <object class="GtkLabel">
+          <object class="GtkLabel" id="min_x_label">
             <property name="visible">True</property>
             <property name="can-focus">False</property>
             <property name="label" translatable="yes">Min x</property>
@@ -117,8 +64,83 @@
             <property name="visible">True</property>
             <property name="can-focus">True</property>
             <property name="receives-default">True</property>
+            <property name="margin-start">250</property>
+            <property name="margin-end">250</property>
             <style>
               <class name="option-button"/>
+              <class name="plot-contents"/>
+            </style>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">4</property>
+            <property name="width">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkScrolledWindow">
+            <property name="width-request">800</property>
+            <property name="height-request">450</property>
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <property name="shadow-type">in</property>
+            <child>
+              <object class="GtkViewport">
+                <property name="visible">True</property>
+                <property name="can-focus">False</property>
+                <child>
+                  <object class="GtkImage" id="graph_image">
+                    <property name="width-request">790</property>
+                    <property name="height-request">440</property>
+                    <property name="visible">True</property>
+                    <property name="can-focus">False</property>
+                    <property name="hexpand">True</property>
+                    <property name="vexpand">True</property>
+                    <property name="stock">gtk-missing-image</property>
+                  </object>
+                </child>
+              </object>
+            </child>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">3</property>
+            <property name="width">4</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="min_y_label">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Min y</property>
+            <style>
+              <class name="plot-contents"/>
+            </style>
+          </object>
+          <packing>
+            <property name="left-attach">0</property>
+            <property name="top-attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkEntry" id="min_y_entry">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <style>
+              <class name="plot-contents"/>
+            </style>
+          </object>
+          <packing>
+            <property name="left-attach">1</property>
+            <property name="top-attach">2</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkLabel" id="max_x_label">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Max x</property>
+            <style>
               <class name="plot-contents"/>
             </style>
           </object>
@@ -128,16 +150,44 @@
           </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkEntry" id="max_x_entry">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <style>
+              <class name="plot-contents"/>
+            </style>
+          </object>
+          <packing>
+            <property name="left-attach">3</property>
+            <property name="top-attach">1</property>
+          </packing>
         </child>
         <child>
-          <placeholder/>
+          <object class="GtkLabel" id="max_y_label">
+            <property name="visible">True</property>
+            <property name="can-focus">False</property>
+            <property name="label" translatable="yes">Max y</property>
+            <style>
+              <class name="plot-contents"/>
+            </style>
+          </object>
+          <packing>
+            <property name="left-attach">2</property>
+            <property name="top-attach">2</property>
+          </packing>
         </child>
         <child>
-          <placeholder/>
-        </child>
-        <child>
-          <placeholder/>
+          <object class="GtkEntry" id="max_y_entry">
+            <property name="visible">True</property>
+            <property name="can-focus">True</property>
+            <style>
+              <class name="plot-contents"/>
+            </style>
+          </object>
+          <packing>
+            <property name="left-attach">3</property>
+            <property name="top-attach">2</property>
+          </packing>
         </child>
       </object>
     </child>

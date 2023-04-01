@@ -4,6 +4,9 @@ cmake-build-debug
 .idea
 src/report
 
+# Generated files
+src/points.txt
+
 # Prerequisites
 *.d
 

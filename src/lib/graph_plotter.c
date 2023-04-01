@@ -1,3 +1,5 @@
+#include <math.h>
+
 #include "../s21_smart_calc.h"
 
 void free_array(GtkWidget *window, gpointer user_data) {
@@ -41,31 +43,6 @@ void gnuplot_finished(GObject *source_object, GAsyncResult *res,
   g_print("Gnuplot Finished\n");
 }
 
-GPtrArray *get_str_x_limits(const char *raw_x_min, const char *raw_x_max) {
-  GPtrArray *res = g_ptr_array_new();
-
-  double x_min = 0, x_max = 0;
-  char *x_min_str = NULL;
-  char *x_max_str = NULL;
-  if (!is_empty(raw_x_min)) {
-    safe_get_double_from_str(raw_x_min, &x_min);
-    x_min_str = calloc(100, sizeof(char));
-    sprintf(x_min_str, "%.7f", x_min);
-    safe_solo_char_replace(x_min_str, ',', '.');
-  }
-  if (!is_empty(raw_x_max)) {
-    safe_get_double_from_str(raw_x_max, &x_max);
-    x_max_str = calloc(100, sizeof(char));
-    sprintf(x_max_str, "%.7f", x_max);
-    safe_solo_char_replace(x_max_str, ',', '.');
-  }
-
-  g_ptr_array_add(res, x_min_str);
-  g_ptr_array_add(res, x_max_str);
-
-  return res;
-}
-
 void call_gnuplot(gchar *cmd, gchar *script, GtkWidget *plot_image) {
   GSubprocess *sub_process = g_subprocess_new(
       G_SUBPROCESS_FLAGS_STDIN_PIPE | G_SUBPROCESS_FLAGS_STDERR_PIPE, NULL, cmd,
@@ -83,18 +60,67 @@ void call_gnuplot(gchar *cmd, gchar *script, GtkWidget *plot_image) {
   g_output_stream_close(stream, NULL, NULL);
 }
 
+char *generate_datafile(gchar *function, const gchar *min_x,
+                        const gchar *max_x) {
+  double x_left = 0, x_right = 0;
+  if (safe_get_double_from_str(min_x, &x_left) != 0 ||
+      safe_get_double_from_str(max_x, &x_right) != 0) {
+    return INVALID_NUMBER_MSG;
+  }
+
+  double diff = x_right - x_left;
+  if (diff < 0) {
+    return INVALID_LIMITS_MSG;
+  }
+
+  int err = 0;
+  char *err_msg = NULL;
+  list *parsed = parse_line(function, &err);
+  if (err == 0) {
+    list *polished = parse_to_polish(parsed, &err);
+    if (err == 0) {
+      FILE *points = fopen(POINTS_FILE, "w");
+      if (points != NULL) {
+        double delta = diff / POINTS_AMOUNT;
+        for (int i = 0; i < POINTS_AMOUNT && !err; ++i) {
+          double x = x_left + delta * i;
+          double y = apply_polish(x, polished, &err);
+          if (err == 0 && !isnan(y) && !isinf(y)) {
+            fprintf(points, "%f %f\n", x, y);
+          }
+        }
+        fclose(points);
+      } else {
+        err_msg = FILE_ERROR_MSG;
+      }
+    } else {
+      err_msg = NOTATION_ERROR_MSG;
+    }
+    list_destroy(polished);
+  } else {
+    err_msg = PARSING_ERROR_MSG;
+  }
+  list_destroy_with_lexem(parsed);
+  return err_msg;
+}
+
 void plot_data(GtkWidget *button, gpointer user_data) {
   UNUSED(button);
 
   GPtrArray *array = user_data;
   gchar *function = array->pdata[0];
-  GtkEntry *min_x_entry = GTK_ENTRY(array->pdata[1]);
-  GtkEntry *max_x_entry = GTK_ENTRY(array->pdata[2]);
-  GtkWidget *plot_image = GTK_WIDGET(array->pdata[3]);
+  const gchar *min_x = gtk_entry_get_text(GTK_ENTRY(array->pdata[1]));
+  const gchar *max_x = gtk_entry_get_text(GTK_ENTRY(array->pdata[2]));
+  const gchar *min_y = gtk_entry_get_text(GTK_ENTRY(array->pdata[3]));
+  const gchar *max_y = gtk_entry_get_text(GTK_ENTRY(array->pdata[4]));
+  GtkLabel *label = GTK_LABEL(array->pdata[5]);
+  GtkWidget *plot_image = GTK_WIDGET(array->pdata[6]);
 
-  const char *min_entry_text = gtk_entry_get_text(min_x_entry);
-  const char *max_entry_text = gtk_entry_get_text(max_x_entry);
-  GPtrArray *limits = get_str_x_limits(min_entry_text, max_entry_text);
+  char *err_msg = generate_datafile(function, min_x, max_x);
+  if (err_msg != NULL) {
+    gtk_label_set_label(label, err_msg);
+    return;
+  }
 
   gint width = gtk_widget_get_allocated_width(plot_image);
   gint height = gtk_widget_get_allocated_height(plot_image);
@@ -106,11 +132,10 @@ void plot_data(GtkWidget *button, gpointer user_data) {
       "set xlabel \"X-axis\"\n"
       "set ylabel \"Y-axis\"\n"
       "set xrange [%s:%s]\n"
-      "plot %s",
-      width, height, PLOT_PNG_FILE,
-      limits->pdata[0] ? (char *)limits->pdata[0] : "",
-      limits->pdata[1] ? (char *)limits->pdata[1] : "", function);
-  g_ptr_array_free(limits, gtk_true());
+      "set yrange [%s:%s]\n"
+      "set decimalsign locale\n"
+      "plot \"%s\" with lines",
+      width, height, PLOT_PNG_FILE, min_x, max_x, min_y, max_y, POINTS_FILE);
   g_print("%s\n", script);
 
   call_gnuplot(cmd, script, plot_image);
@@ -131,12 +156,18 @@ void create_graph_plotter(GtkWidget *widget, gpointer data) {
   gchar *function = (gchar *)gtk_entry_get_text(GTK_ENTRY(data));
   GObject *min_x_entry = gtk_builder_get_object(builder, "min_x_entry");
   GObject *max_x_entry = gtk_builder_get_object(builder, "max_x_entry");
+  GObject *min_y_entry = gtk_builder_get_object(builder, "min_y_entry");
+  GObject *max_y_entry = gtk_builder_get_object(builder, "max_y_entry");
+  GObject *graph_label = gtk_builder_get_object(builder, "graph_label");
   GObject *plot_image = gtk_builder_get_object(builder, "graph_image");
 
   GPtrArray *arguments_array = g_ptr_array_new();
   g_ptr_array_add(arguments_array, function);
   g_ptr_array_add(arguments_array, min_x_entry);
   g_ptr_array_add(arguments_array, max_x_entry);
+  g_ptr_array_add(arguments_array, min_y_entry);
+  g_ptr_array_add(arguments_array, max_y_entry);
+  g_ptr_array_add(arguments_array, graph_label);
   g_ptr_array_add(arguments_array, plot_image);
 
   GObject *graph_window = gtk_builder_get_object(builder, "graph_window");

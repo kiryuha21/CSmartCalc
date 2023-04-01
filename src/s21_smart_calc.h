@@ -19,6 +19,17 @@
 #define HIGH_P 2
 #define HIGHEST_P 3
 
+#define INVALID_EXPRESSION_MSG "Invalid expression!"
+#define INVALID_VARIABLE_MSG "Wrong or missing variable!"
+#define INVALID_NUMBER_MSG "Invalid number!"
+#define INVALID_LIMITS_MSG "Invalid range limits!"
+#define NOTATION_ERROR_MSG "Polish notation error!"
+#define PARSING_ERROR_MSG "Parsing error!"
+#define FILE_ERROR_MSG "File opening error!"
+
+#define POINTS_AMOUNT 1000
+#define POINTS_FILE "points.txt"
+
 #define STYLES_FILE "graphics/styles.css"
 
 #define PLOT_PNG_FILE "graphics/plot.png"
