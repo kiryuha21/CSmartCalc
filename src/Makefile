@@ -22,11 +22,17 @@ TEST_H_FILES = unit_tests/unit_tests.h
 TEST_TARGET = s21_test
 TARGET = s21_calc
 
-LIB = s21_smart_calc.a
-
 REPORT_DIR = report
 
-all: clean test gcov_report $(LIB)
+.PHONY: all clean install uninstall
+
+all: clean build install test gcov_report
+
+install: build
+	install ./s21_calc /usr/local/bin
+
+uninstall:
+	rm -rf /usr/local/bin/s21_calc
 
 clang:
 	cp ../materials/linters/.clang-format .
@@ -48,12 +54,6 @@ gcov_report: clang
 	genhtml -o report $(TEST_TARGET).info
 	rm *.gcda *.gcno *.info
 	open report/index.html
-
-$(LIB): clang
-	$(CC) -c $(SRC_C_FILES) $(LINK_LIBRARIES)
-	ar rcv $(LIB) *.o
-	ranlib $(LIB)
-	rm *.o
 
 cppcheck:
 	cppcheck --enable=all --suppress=missingIncludeSystem .

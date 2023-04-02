@@ -42,7 +42,8 @@ void differentiated_calculation(CreditComponents *components) {
   double base_monthly_payment = components->amount / components->term;
   double total_payment = 0;
   for (int i = 0; i < components->term; ++i) {
-    total_payment += base_monthly_payment +
+    total_payment +=
+        base_monthly_payment +
         (components->amount - base_monthly_payment * i) * monthly_rate;
   }
   double overpayment = total_payment - components->amount;
