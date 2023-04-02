@@ -60,6 +60,7 @@ void create_deposit_calculator(GtkWidget* widget, gpointer data);
 list* parse_line(char* line, int* err);
 list* parse_to_polish(list* lexems, int* err);
 double apply_polish(double x, list* parsed_polish, int* err);
+char* generate_datafile(gchar* function, double min_x, double max_x);
 
 int is_empty(const char* string);
 int safe_get_double_from_str(const char* str, double* val);

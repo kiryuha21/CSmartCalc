@@ -19,6 +19,13 @@ SRC_H_FILES = s21_smart_calc.h
 TEST_C_FILES = unit_tests/*.c
 TEST_H_FILES = unit_tests/unit_tests.h
 
+COVERAGE_C_FILES = lib/polish_notation.c \
+ 				   lib/parser.c \
+ 				   dynamic_structures/*.c \
+ 				   lib/utils.c \
+ 				   lib/datafile_generation.c \
+ 				   unit_tests/*.c
+
 TEST_TARGET = s21_test
 TARGET = s21_calc
 
@@ -26,7 +33,7 @@ REPORT_DIR = report
 
 .PHONY: all clean install uninstall
 
-all: clean build install test gcov_report
+all: clean build test gcov_report dvi dist
 
 install: build
 	install ./$(TARGET) /usr/local/bin
@@ -51,11 +58,11 @@ build: clang $(SRC_C_FILES) $(SRC_H_FILES)
 	$(CC) $(FLAGS) $(GTK_FLAGS) $(SRC_C_FILES) main.c -o $(TARGET) $(LINK_GTK) $(LINK_LIBRARIES)
 
 test: clang $(SRC_C_FILES) $(SRC_H_FILES)
-	$(CC) $(FLAGS) $(GTK_FLAGS) $(SRC_C_FILES) $(TEST_C_FILES) -o $(TEST_TARGET) $(LINK_GTK) $(LINK_LIBRARIES)
+	$(CC) $(FLAGS) $(GTK_FLAGS) $(SRC_C_FILES) $(TEST_C_FILES) -o $(TEST_TARGET) $(LINK_GTK) $(LINK_LIBRARIES) -D _GNU_SOURCE
 	./$(TEST_TARGET)
 
 gcov_report: clang
-	$(CC) --coverage $(FLAGS) $(GTK_FLAGS) $(SRC_C_FILES) $(TEST_C_FILES) -o $(TEST_TARGET) $(LINK_GTK) $(LINK_LIBRARIES)
+	$(CC) --coverage $(FLAGS) $(GTK_FLAGS) $(COVERAGE_C_FILES) -o $(TEST_TARGET) $(LINK_GTK) $(LINK_LIBRARIES) -D _GNU_SOURCE
 	./$(TEST_TARGET)
 	lcov -t "$(TEST_TARGET)" -o $(TEST_TARGET).info -c -d .
 	genhtml -o report $(TEST_TARGET).info
