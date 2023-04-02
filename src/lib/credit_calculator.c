@@ -38,7 +38,43 @@ void annuity_calculation(CreditComponents *components) {
 }
 
 void differentiated_calculation(CreditComponents *components) {
-  UNUSED(components);  // TODO: implement
+  double monthly_rate = components->rate / 1200;
+  double base_monthly_payment = components->amount / components->term;
+  double total_payment = 0;
+  for (int i = 0; i < components->term; ++i) {
+    total_payment += base_monthly_payment +
+        (components->amount - base_monthly_payment * i) * monthly_rate;
+  }
+  double overpayment = total_payment - components->amount;
+
+  gchar *s_monthly_payment = calloc(100, sizeof(char));
+  gchar *s_total_payment = calloc(100, sizeof(char));
+  gchar *s_overpayment = calloc(100, sizeof(char));
+
+  sprintf(s_monthly_payment, "%.7f + (%.7f - %.7f * (N - 1)) * %.7f",
+          base_monthly_payment, components->amount, base_monthly_payment,
+          monthly_rate);
+  sprintf(s_total_payment, "%.7f", total_payment);
+  sprintf(s_overpayment, "%.7f", overpayment);
+
+  GtkTextBuffer *monthly_payment_buffer =
+      gtk_text_view_get_buffer(components->monthly_payment);
+  gtk_text_buffer_set_text(monthly_payment_buffer, s_monthly_payment,
+                           (int)strlen(s_monthly_payment));
+
+  GtkTextBuffer *overpayment_buffer =
+      gtk_text_view_get_buffer(components->overpayment);
+  gtk_text_buffer_set_text(overpayment_buffer, s_overpayment,
+                           (int)strlen(s_overpayment));
+
+  GtkTextBuffer *total_payment_buffer =
+      gtk_text_view_get_buffer(components->total_payment);
+  gtk_text_buffer_set_text(total_payment_buffer, s_total_payment,
+                           (int)strlen(s_total_payment));
+
+  free(s_monthly_payment);
+  free(s_total_payment);
+  free(s_overpayment);
 }
 
 void credit_calculation(GtkWidget *widget, gpointer data) {
@@ -62,7 +98,7 @@ void credit_calculation(GtkWidget *widget, gpointer data) {
     return;
   }
 
-  if (amount < 0 || term < 0 || rate < 0) {
+  if (amount <= 1e-7 || term <= 1e-7 || rate <= 1e-7) {
     gtk_label_set_label(label, INVALID_EXPRESSION_MSG);
     return;
   }
