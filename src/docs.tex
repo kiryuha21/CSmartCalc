@@ -1,0 +1,25 @@
+\documentclass{article}
+
+\def\header#1#2{\par\vspace{11pt}{\ifcase#1\or\huge\or\Large\or\large\or\normalsize\or\small\fi \bfseries #2}\vspace{11pt}\par}
+\setlength{\oddsidemargin}{0.45999999999999996cm}
+\setlength{\topmargin}{-52.36448818897639pt}
+\setlength{\textwidth}{462.3572834645668pt}
+\setlength{\textheight}{618.3644881889765pt}
+\begin{document}
+
+\header2{Documentation for SmartCalc-v1.0}
+
+The calculator is written in C using the GTK+ 3.0 framework.
+The calculator has 6 arithmetic operations and 9 mathematical functions.
+The calculator builds graphs with the ability to change the scale.
+
+The input of the program can be both integers and real numbers written through a dot.
+The calculation is performed after the full input of the expression to be calculated and pressing the symbol =.
+
+Also implemented a credit calculator with:
+\begin{itemize}
+\item Input: credit amount, credit term in month and year rate.
+\item Output: monthly payment, overpayment and total payment
+\end{itemize}
+
+\end{document}

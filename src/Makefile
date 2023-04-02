@@ -29,10 +29,17 @@ REPORT_DIR = report
 all: clean build install test gcov_report
 
 install: build
-	install ./s21_calc /usr/local/bin
+	install ./$(TARGET) /usr/local/bin
 
 uninstall:
-	rm -rf /usr/local/bin/s21_calc
+	rm -rf /usr/local/bin/$(TARGET)
+
+dvi:
+	texi2dvi docs.tex
+	open docs.dvi
+
+dist: build
+	tar -czvf $(TARGET).tgz $(TARGET) graphics/*
 
 clang:
 	cp ../materials/linters/.clang-format .
@@ -67,10 +74,19 @@ clean_report:
 clean_lib:
 	rm -f $(LIB)
 
-clean_obj:
-	rm -f *.o
+clean_executables:
+	rm -f $(TEST_TARGET)
+	rm -f $(TARGET)
 
 clean_gcov:
 	rm -f *.gc*
 
-clean: clean_test clean_report clean_lib clean_obj clean_gcov
+clean_dvi:
+	rm -rf *.aux
+	rm -rf *.log
+	rm -rf *.dvi
+
+clean_dist:
+	rm -rf $(TARGET).tgz
+
+clean: clean_test clean_report clean_lib clean_gcov clean_dvi clean_dist clean_executables
