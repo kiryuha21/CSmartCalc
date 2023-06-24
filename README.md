@@ -41,16 +41,16 @@
 
 - Вычисление выражения:
 
-![calc_expression](mics/default_calc.png)
+![calc_expression](misc/default_calc.jpg)
 
 - Вычисление выражения с подстановкой x:
 
-![expression_with_x](mics/calc_with_x.png)
+![expression_with_x](misc/calc_with_x.jpg)
 
 - Построение графика функции:
 
-![plot_example](mics/plot_example.png)
+![plot_example](misc/plot_example.jpg)
 
 - Использование кредитного калькулятора
 
-![credit_calc](mics/credit_calc.png)
+![credit_calc](misc/credit_calc.jpg)
